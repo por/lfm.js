@@ -1,8 +1,7 @@
 window.LFM = window.LFM || (function () {
-  var apiKey = null;
-  var apiSecret = null;
   var apiRoot = 'http://ws.audioscrobbler.com/2.0/?format=json';
   var apiAuthUrl = 'http://www.last.fm/api/auth';
+  var apiKey, apiSecret, callbackURL;
 
   var session = null;
 
@@ -120,6 +119,7 @@ window.LFM = window.LFM || (function () {
       apiKey = options.key;
       apiSecret = options.secret || null;
       session = Data.get('session');
+      callbackURL = options.callbackURL || null;
     },
     getSession: function () {
       return session;
@@ -128,7 +128,7 @@ window.LFM = window.LFM || (function () {
       authCallback = callback;
       var url = apiAuthUrl + '?' + parameterise({
         api_key: apiKey,
-        cb: 'http://localhost/html5-radio/callback.html'
+        cb: callbackURL
       });
       window.open(url, 'lastfmLogin', 'height=600,width=980');
     },
