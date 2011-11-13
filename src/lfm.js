@@ -72,10 +72,10 @@ window.LFM = window.LFM || (function () {
   // Get/set data
   var Data = {
     get: function (key) {
-      return JSON.parse(localStorage.getItem(key));
+      return localStorage.getItem(key);
     },
     set: function (key, value) {
-      localStorage.setItem(key, JSON.stringify(value));
+      localStorage.setItem(key, value);
     },
     del: function (key) {
       localStorage.removeItem(key);
@@ -119,11 +119,17 @@ window.LFM = window.LFM || (function () {
     return obj3;
   };
 
+  var getSession = function () {
+    var key = Data.get('LFM_key');
+    var user = Data.get('LFM_user');
+    return (key && user) ? {key: key, user: user} : null;
+  };
+
   return {
     init: function (options) {
       apiKey = options.key;
       apiSecret = options.secret || null;
-      session = Data.get('session');
+      session = getSession();
       callbackURL = options.callbackURL || null;
     },
     getSession: function () {
@@ -138,7 +144,8 @@ window.LFM = window.LFM || (function () {
       window.open(url, 'lastfmLogin', 'height=600,width=980');
     },
     logout: function (callback) {
-      Data.del('session');
+      Data.del('LFM_key');
+      Data.del('LFM_user');
       callback();
     },
     loginCallback: function () {
@@ -148,7 +155,9 @@ window.LFM = window.LFM || (function () {
       if (params.token) {
         // get session
         api('auth.getSession', 'post', {token: params.token}, function (response) {
-          Data.set('session', response.session);
+          Data.set('LFM_key', response.session.key);
+          Data.set('LFM_user', response.session.name);
+          session = getSession();
         });
       }
       authCallback();
