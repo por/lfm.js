@@ -9,7 +9,12 @@ window.LFM = window.LFM || (function () {
   var authCallback = null;
 
   // Make an api request
-  var api = function (method, type, params, callback) {
+  var api = function () {
+    var a = arguments;
+    var method = a[0]; // required
+    var type = (typeof a[1] === 'string' && /GET|POST/.test(a[1])) ? a[1] : 'GET'; // optional
+    var params = (typeof a[2] === 'object') ? a[2] : (typeof a[1] === 'object') ? a[1] : null; // optional
+    var callback = (typeof a[3] === 'function') ? a[3] : (typeof a[2] === 'function') ? a[2] : (typeof a[1] === 'function') ? a[1] : null; // required
     var data = {
       'api_key': apiKey,
       'method': method
@@ -22,7 +27,7 @@ window.LFM = window.LFM || (function () {
     
     data = parameterise(data);
     var url = apiRoot;
-    var m = (type || 'GET').toUpperCase();
+    var m = type.toUpperCase();
     if (m === 'GET') {
       url += '&' + data;
     }
