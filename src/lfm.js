@@ -66,7 +66,7 @@ window.LFM = window.LFM || (function () {
       }
     }
     string += apiSecret;
-    return hex_md5(string);
+    return Crypto.MD5(string);
   };
 
   // Get/set data
