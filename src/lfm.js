@@ -1,4 +1,4 @@
-window.LFM = window.LFM || (function () {
+var LFM = (function () {
   var apiRoot = 'http://ws.audioscrobbler.com/2.0/?format=json';
   var apiAuthUrl = 'http://www.last.fm/api/auth';
   var apiKey, apiSecret, callbackURL;
@@ -9,12 +9,7 @@ window.LFM = window.LFM || (function () {
   var authCallback = null;
 
   // Make an api request
-  var api = function () {
-    var a = arguments;
-    var method = a[0]; // required
-    var type = (typeof a[1] === 'string' && /GET|POST/.test(a[1])) ? a[1] : 'GET'; // optional
-    var params = (typeof a[2] === 'object') ? a[2] : (typeof a[1] === 'object') ? a[1] : null; // optional
-    var callback = (typeof a[3] === 'function') ? a[3] : (typeof a[2] === 'function') ? a[2] : (typeof a[1] === 'function') ? a[1] : null; // required
+  var api = function (method, type, params, callback) {
     var data = {
       'api_key': apiKey,
       'method': method
@@ -157,6 +152,11 @@ window.LFM = window.LFM || (function () {
       }
       authCallback();
     },
-    api: api
+    get: function (method, params, callback) {
+      api(method, 'GET', params, callback);
+    },
+    post: function (method, params, callback) {
+      api(method, 'POST', params, callback);
+    }
   };
 }());
