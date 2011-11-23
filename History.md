@@ -1,3 +1,12 @@
+0.0.3 / 2011-11-24
+==================
+
+  * Add basic readme documentation.
+  * Rename callbackURL parameter to callback_uri
+  * Add session data to login callback handler
+  * Replace overall api call with get and post methods
+  * Combine session data in object
+
 0.0.2 / 2011-11-13
 ==================
 
