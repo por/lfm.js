@@ -7,10 +7,10 @@ var callback = function(response) {
   start();
 };
 
-var testAPI = function () {
+var _get = function () {
   // Async, so pause the test first
   stop();
-  LFM.api.apply(null, arguments);
+  LFM.get.apply(null, arguments);
 };
 
 // API credentials for Last.fm user `lfm.js`
@@ -19,6 +19,6 @@ LFM.init({
   secret: 'ee685b5768b34751c1776bdef60ceb2c'
 });
 
-test('API user.getInfo', function() { testAPI('user.getInfo', {user: 'por'}, callback); });
-test('API artist.getInfo', function() { testAPI('artist.getInfo', {artist: 'radiohead'}, callback); });
-test('API geo.getEvents', function() { testAPI('geo.getEvents', callback); });
+test('API user.getInfo', function() { _get('user.getInfo', {user: 'por'}, callback); });
+test('API artist.getInfo', function() { _get('artist.getInfo', {artist: 'radiohead'}, callback); });
+test('API geo.getEvents', function() { _get('geo.getEvents', {}, callback); });

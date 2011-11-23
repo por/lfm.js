@@ -1,7 +1,7 @@
-window.LFM = window.LFM || (function () {
+var LFM = (function () {
   var apiRoot = 'http://ws.audioscrobbler.com/2.0/?format=json';
   var apiAuthUrl = 'http://www.last.fm/api/auth';
-  var apiKey, apiSecret, callbackURL;
+  var apiKey, apiSecret, callback_uri;
 
   var session = null;
 
@@ -9,12 +9,7 @@ window.LFM = window.LFM || (function () {
   var authCallback = null;
 
   // Make an api request
-  var api = function () {
-    var a = arguments;
-    var method = a[0]; // required
-    var type = (typeof a[1] === 'string' && /GET|POST/.test(a[1])) ? a[1] : 'GET'; // optional
-    var params = (typeof a[2] === 'object') ? a[2] : (typeof a[1] === 'object') ? a[1] : null; // optional
-    var callback = (typeof a[3] === 'function') ? a[3] : (typeof a[2] === 'function') ? a[2] : (typeof a[1] === 'function') ? a[1] : null; // required
+  var api = function (method, type, params, callback) {
     var data = {
       'api_key': apiKey,
       'method': method
@@ -124,7 +119,7 @@ window.LFM = window.LFM || (function () {
       apiKey = options.key;
       apiSecret = options.secret || null;
       session = Data.get('LFM');
-      callbackURL = options.callbackURL || null;
+      callback_uri = options.callback_uri || null;
     },
     getSession: function () {
       return session;
@@ -133,7 +128,7 @@ window.LFM = window.LFM || (function () {
       authCallback = callback;
       var url = apiAuthUrl + '?' + parameterise({
         api_key: apiKey,
-        cb: callbackURL
+        cb: callback_uri
       });
       window.open(url, 'lastfmLogin', 'height=600,width=980');
     },
@@ -144,6 +139,7 @@ window.LFM = window.LFM || (function () {
     loginCallback: function () {
       var popup = window.open("", "lastfmLogin");
       var params = parseLocation(popup.location);
+      var session = {};
       popup.close();
       if (params.token) {
         // get session
@@ -155,8 +151,13 @@ window.LFM = window.LFM || (function () {
           Data.set('LFM', session);
         });
       }
-      authCallback();
+      authCallback(session);
     },
-    api: api
+    get: function (method, params, callback) {
+      api(method, 'GET', params, callback);
+    },
+    post: function (method, params, callback) {
+      api(method, 'POST', params, callback);
+    }
   };
 }());
