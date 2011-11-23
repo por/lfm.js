@@ -139,6 +139,7 @@ var LFM = (function () {
     loginCallback: function () {
       var popup = window.open("", "lastfmLogin");
       var params = parseLocation(popup.location);
+      var session = {};
       popup.close();
       if (params.token) {
         // get session
@@ -150,7 +151,7 @@ var LFM = (function () {
           Data.set('LFM', session);
         });
       }
-      authCallback();
+      authCallback(session);
     },
     get: function (method, params, callback) {
       api(method, 'GET', params, callback);
