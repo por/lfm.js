@@ -8,7 +8,7 @@ LFM.js allows you to easily integrate the Last.fm API into your website. It offe
 
 ## Getting Started
 
-Add the following script to your HTML and use your own Last.fm API key. The 'secret' and 'callback_uri' parameters are both optional, but you will need them if you want to use authentication.
+Add the following script to your HTML and use your own Last.fm API key. The 'secret' and 'callback_uri' parameters are both optional, but you will need them if you want to use authentication. The ```callback.html``` can be found in the ```src``` directory. It doesn’t matter where you place this file, as long as it’s on the same domain you’re calling the script from.
 
 ``` html
 <script src="https://raw.github.com/por/lfm.js/master/src/lfm.js"></script>
@@ -16,7 +16,7 @@ Add the following script to your HTML and use your own Last.fm API key. The 'sec
   LFM.init({
     key: 'YOUR_API_KEY',
     secret: 'YOUR_API_SECRET',
-    callback_url: 'PATH_TO_CALLBACK_HTML'
+    callback_uri: 'PATH_TO_CALLBACK_HTML'
   });
 </script>
 ```
