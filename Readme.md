@@ -36,6 +36,12 @@ You can use ```LFM.post()``` in exactly the same way, but you’ll need to authe
 
 LFM.js offers a simple authentication flow with a popup window. To make this method work, you will have to host the callback.html file from the same domain as you’re calling the script from, and don’t forget to add it when you call ```LFM.init()```.
 
+Authentication requires an md5 library. LFM.js depends on the Google Crypt md5 library. Include it like this:
+
+``` html
+<script src="https://raw.github.com/por/lfm.js/master/vendor/crypto/2.3.0-crypto-md5.js"></script>
+```
+
 ``` js
 // first, check if the user is already logged in
 var session = LFM.getSession();

@@ -17,8 +17,8 @@ var LFM = (function () {
     data = mergeObjects(data, params);
     if (session) {
       data.sk = session.key;
+      data.api_sig = getApiSignature(data);
     }
-    data.api_sig = getApiSignature(data);
     
     data = parameterise(data);
     var url = apiRoot;
