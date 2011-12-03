@@ -27,7 +27,7 @@ Add the following script to your HTML and use your own Last.fm API key. The 'sec
 // get artist info for Radiohead
 LFM.get('artist.getInfo', { artist: 'Radiohead' }, function (response) {
   // handle response data
-}
+});
 ```
 
 You can use ```LFM.post()``` in exactly the same way, but you’ll need to authenticate the user first.
